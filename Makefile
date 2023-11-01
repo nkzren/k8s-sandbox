@@ -26,7 +26,7 @@ istio:
 	helm install istiod istio/istiod -n istio-system --wait
 	helm status istiod -n istio-system
 	kubectl create namespace istio-ingress
-	istioctl install -f istio/ingress.yaml
+	istioctl install -y -f istio/ingress.yaml
 	kubectl label namespace default istio-injection=enabled
 
 .PHONY: reset
