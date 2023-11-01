@@ -2,7 +2,7 @@
 minikube:
 	@sudo systemctl start libvirtd
 	@sudo systemctl start virtlogd
-	@minikube start --nodes 4 -p sandbox
+	@minikube start --nodes 2 -p sandbox
 
 .PHONY: stop
 stop:

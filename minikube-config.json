@@ -1,7 +1,7 @@
 {
-    "cpus": "2",
+    "cpus": "4",
     "driver": "kvm2",
     "kubernetes-version": "v1.27.4",
-    "memory": "6G",
+    "memory": "10G",
     "profile": "sandbox"
 }
