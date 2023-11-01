@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "httpbin.fullname" . }}
+  labels:
+    {{- include "httpbin.labels" . | nindent 4 }}
+spec:
+  host: {{ include "httpbin.fullname" . }}
+  subsets:
+  - name: v2
+    trafficPolicy:
+      outlierDetection:
+        consecutive5xxErrors: 3
+        interval: 1m
+        baseEjectionTime: 1m
+  - name: v1

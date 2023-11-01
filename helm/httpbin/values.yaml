@@ -33,3 +33,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+istio:
+  externalDns: httpbin.sandbox.minikube.com

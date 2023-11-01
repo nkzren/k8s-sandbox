@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "httpbin.fullname" . }}
+  labels:
+    {{- include "httpbin.labels" . | nindent 4 }}
+spec:
+  hosts:
+    - {{ .Values.istio.externalDns }}
+    - {{ include "httpbin.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  gateways:
+    - {{ include "httpbin.fullname" . }}
+  http:
+  - name: fault-injection
+    route:
+    - destination:
+        host: {{ include "httpbin.fullname" . }}
+        subset: v2
+    fault:
+      delay:
+        percentage:
+          value: 100
+        fixedDelay: 3s
+    match:
+    - uri:
+        prefix: "/error"
+    rewrite:
+      uri: "/status/500"
+  - name: teapot
+    route:
+    - destination:
+        host: {{ include "httpbin.fullname" . }}
+        subset: v1
+    match:
+    - headers:
+        end-user:
+          exact: renan
+    rewrite:
+      uri: "/status/418"
+  - name: default
+    route:
+    - destination:
+        host: {{ include "httpbin.fullname" . }}
+        subset: v1
