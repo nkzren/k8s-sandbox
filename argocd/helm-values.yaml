@@ -1,0 +1,9 @@
+server:
+  ingress:
+    enabled: true
+    extraHosts:
+    - name: argocd.test
+      path: /
+configs:
+  params:
+    "server.insecure": "true"
