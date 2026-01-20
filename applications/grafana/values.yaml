@@ -1,0 +1,5 @@
+app:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.test
