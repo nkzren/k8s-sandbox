@@ -9,6 +9,10 @@ spec:
         revision: HEAD
         files:
           - path: applications/*/values.yaml
+    - list:
+        elements:
+        - cluster: data-plane-1
+          url: https://192.168.58.2:8443
   template:
     metadata:
       name: argo-{{path[1]}}-sandbox
@@ -23,8 +27,8 @@ spec:
             - "values.yaml"
           skipSchemaValidation: true
       destination:
-        server: 'https://kubernetes.default.svc'
-        namespace: 'argocd'
+        server: '{{ .url }}'
+        namespace: '{{ path[1] }}'
       syncPolicy:
         automated:
           prune: true
