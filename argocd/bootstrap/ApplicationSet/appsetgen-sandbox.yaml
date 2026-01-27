@@ -4,15 +4,17 @@ metadata:
   name: appsetgen-sandbox
 spec:
   generators:
-    - git:
-        repoURL: 'https://github.com/nkzren/k8s-sandbox.git'
-        revision: HEAD
-        files:
-          - path: applications/*/values.yaml
-    - list:
-        elements:
-        - cluster: data-plane-1
-          url: https://192.168.58.2:8443
+    matrix:
+      generators:
+      - git:
+          repoURL: 'https://github.com/nkzren/k8s-sandbox.git'
+          revision: HEAD
+          files:
+            - path: applications/*/values.yaml
+      - clusters:
+          selector:
+          - matchLabels:
+              argocd.argoproj.io/secret-type: cluster
   template:
     metadata:
       name: argo-{{path[1]}}-sandbox
@@ -27,7 +29,7 @@ spec:
             - "values.yaml"
           skipSchemaValidation: true
       destination:
-        server: '{{ .url }}'
+        server: '{{ .server }}'
         namespace: '{{ path[1] }}'
       syncPolicy:
         automated:
